@@ -1,68 +1,60 @@
-function sortear() {
-    let quantidade = parseInt(document.getElementById('quantidade').value);
-    let de = parseInt(document.getElementById('de').value);
-    let ate = parseInt(document.getElementById('ate').value);
+<!DOCTYPE html>
+<html lang="pt-br">
 
-    if (de >= ate) {
-        alert('Campo "Do número" deve ser inferior ao campo "Até o número". Verifique!');
-        return;
-    }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="img/aaa.png" type="image/x-icon">
+    <title>Arena Savóia</title>
+</head>
 
-    if (quantidade > (ate - de + 1)) {
-        alert('Campo "Quantidade" deve ser menor ou igual ao intervalo informado no campo "Do número" até o campo "Até o número". Verifique!');
-        return;
-    }
+<body>
+    <div class="container">
+        <div class="container__conteudo">
+            <div class="container__informacoes">
+                <div class="container__texto">
+                    <h1>Sorteador<span class="container__texto-azul"> do Torneio</span></h1>
 
-    let sorteados = [];
-    let numero;
-    
-    for (let i = 0; i < quantidade; i++) {
-        numero = obterNumeroAleatorio(de, ate);
+                    <div class="container__campo">
+                        <label class="texto__paragrafo">Quantidade de duplas</label>
+                        <input class="container__input" id="quantidade" type="number" min="1">
+                    </div>
 
-        while (sorteados.includes(numero)) {
-            numero = obterNumeroAleatorio(de, ate);
-        }
+                    <div class="container__campo">
+                        <label class="texto__paragrafo">Quantos Biônicos</label>
+                        <input class="container__input" id="bionicos" type="number" min="0">
+                    </div>
+                    
+                    <div class="container__campo">
+                        <label class="texto__paragrafo">Do número</label>
+                        <input class="container__input" id="de" type="number" min="1">
+                    </div>
+                    
+                    <div class="container__campo">
+                        <label class="texto__paragrafo">Até o número</label>
+                        <input class="container__input" id="ate" type="number" min="1">
+                    </div>
+                </div>
+                
+                <div class="chute container__botoes">
+                    <button onclick="sortear()" id="btn-sortear" class="container__botao">Sortear</button>
+                    <button onclick="reiniciar()" id="btn-reiniciar" class="container__botao-desabilitado" >Reiniciar</button>
+                </div>
 
-        sorteados.push(numero);
-    }
+                <div class="container__texto" id="resultado">
+                    <label class="texto__paragrafo">Duplas sorteadas:  nenhum até agora</label>
+                </div>
+            </div>
 
-    let resultado = document.getElementById('resultado');
-    resultado.innerHTML = `<label class="texto__paragrafo">Números sorteados:</label><ul>`;
-    for (let i = 0; i < sorteados.length; i += 2) { // Incrementa de 2 para pegar pares de números
-        let jogo = Math.floor(i / 2) + 1; // Calcula o número do jogo
-        if (i + 1 < sorteados.length) { // Verifica se há um próximo número para o par
-            resultado.innerHTML += `<li>${jogo} Jogo: ${sorteados[i]} x ${sorteados[i + 1]}</li>`;
-        } else {
-            resultado.innerHTML += `<li>${sorteados[i]}</li>`; // Se não houver par, exibe o último número sozinho
-        }
-    }
-    resultado.innerHTML += `</ul>`;
+            <img src="./img/aaa.png" alt="Uma pessoa com capacete de astronauta" class="container__imagem-pessoa" />
+        </div>
+    </div>
 
-    alterarStatusBotao();
+    <script src="app.js" defer></script>
+</body>
 
-}
-
-function obterNumeroAleatorio(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function alterarStatusBotao() {
-    let botao = document.getElementById('btn-reiniciar');
-    
-    if (botao.classList.contains('container__botao-desabilitado')) {
-        botao.classList.remove('container__botao-desabilitado');
-        botao.classList.add('container__botao');
-    } else {
-        botao.classList.remove('container__botao');
-        botao.classList.add('container__botao-desabilitado');
-    }
-}
-
-function reiniciar() {
-    document.getElementById('quantidade').value = '';
-    document.getElementById('de').value = '';
-    document.getElementById('ate').value = '';
-    document.getElementById('resultado').innerHTML = '<label class="texto__paragrafo">Números sorteados:  nenhum até agora</label>';
-    alterarStatusBotao();
-
-}
+</html>
