@@ -4,6 +4,12 @@ function sortear() {
     let de = parseInt(document.getElementById('de').value);
     let ate = parseInt(document.getElementById('ate').value);
 
+     // Verifica se o campo "Quantos Biônicos" está vazio
+     if (isNaN(quantidadeBionicos) || quantidadeBionicos === '') {
+        alert('Por favor, preencha o campo "Quantos Biônicos".');
+        return; // Interrompe a função se o campo estiver vazio
+    }
+
     if (de >= ate) {
         alert('Campo "Do número" deve ser inferior ao campo "Até o número". Verifique!');
         return;
