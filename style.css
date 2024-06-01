@@ -6,7 +6,7 @@
 }
 
 body {
-    background: linear-gradient(#13a513 0%, #0a980a 33.33%, #077107 66.67%, #024a02 100%);
+    background: linear-gradient(#13a513 0%, #0a980a 33.33%, #077107 66.67%, #024a02 100%) no-repeat;
     height: 100vh;
     display: flex;
     align-items: center;
@@ -130,7 +130,7 @@ h1 {
     line-height: normal;
 }
 
-.container__imagem-pessoa {
+.container__logo {
     max-width: 100%;
     height: auto;
     margin-top: 2rem;
@@ -140,62 +140,3 @@ button:disabled {
     background-color: gray;
 }
 
-@media screen and (max-width: 1250px) {
-    .container__imagem-pessoa {
-        display: none;
-    }
-
-    h1 {
-        font-size: 50px;
-    }
-}
-
-@media screen and (max-width: 900px) {
-    .container__imagem-pessoa {
-        display: none;
-    }
-
-    h1 {
-        font-size: 2.7rem;
-    }
-
-    .container__texto-azul {
-        white-space: pre;
-        padding: auto;
-    }
-
-    .container__informacoes {
-        flex: 1;
-        padding: 1.5rem;
-    }
-    .container__campo {
-        display: flex;
-        align-items: center;
-        text-align: center;
-        margin-bottom: 12px;
-        flex-direction: column;
-        margin-left: 2rem;
-
-    }
-    .texto__paragrafo {
-        font-size: 1.4rem;
-    }
-
-    .container__input {
-        width: 10rem;
-        height: 1rem;
-        text-align: center;
-    }
-
-    .container__botoes {
-        display: flex;
-        flex-direction: column;
-        gap: 1em;
-        width: 80%;
-        margin-left: 1rem;
-    }
-
-    .container__texto {
-        width: 80%;
-    }
-}

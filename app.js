@@ -1,8 +1,6 @@
 function sortear() {
     let quantidadeDupla = parseInt(document.getElementById('quantidade').value);
     let quantidadeBionicos = parseInt(document.getElementById('bionicos').value);
-    let de = parseInt(document.getElementById('de').value);
-    let ate = parseInt(document.getElementById('ate').value);
 
     // Verifica se "Quantidade de Duplas" está vazio
     if (isNaN(quantidadeDupla) || quantidadeDupla === 0) {
@@ -10,32 +8,10 @@ function sortear() {
         return;
     }
 
-     // Verifica se o campo "Quantos Biônicos" está vazio
-     if (isNaN(quantidadeBionicos) || quantidadeBionicos === '') {
-        alert('Por favor, preencha o campo "Quantos Biônicos".');
+    // Verifica se o campo "Quantidade Biônicos" está vazio
+    if (isNaN(quantidadeBionicos) || quantidadeBionicos === '') {
+        alert('Por favor, preencha o campo "Quantidade Biônicos".');
         return; // Interrompe a função se o campo estiver vazio
-    }
-
-    // Verifica se "Do número" está vazio
-    if (isNaN(de) || de === 0) {
-        alert('Por favor, preencha o campo "Do número" um número maior que 0.');
-        return;
-    }
-
-    // Verifica se "Até o número" está vazio
-    if (isNaN(ate) || ate === 0) {
-        alert('Por favor, preencha o campo "Até o número"  um número maior que 0.');
-        return;
-    }
-
-    if (de >= ate) {
-        alert('Campo "Do número" deve ser inferior ao campo "Até o número". Verifique!');
-        return;
-    }
-
-    if (quantidadeDupla > (ate - de + 1)) {
-        alert('Campo "Quantidade de dupla" deve ser menor ou igual ao intervalo informado no campo "Do número" até o campo "Até o número". Verifique!');
-        return;
     }
 
     let sorteados = [];
@@ -43,71 +19,85 @@ function sortear() {
 
     // Sorteia números para os biônicos
     for (let i = 0; i < quantidadeBionicos; i++) {
-        numero = obterNumeroAleatorio(de, ate);
+        numero = obterNumeroAleatorio(1, quantidadeDupla);
 
         while (sorteados.includes(numero)) {
-            numero = obterNumeroAleatorio(de, ate);
+            numero = obterNumeroAleatorio(1, quantidadeDupla);
         }
 
         sorteados.push(numero);
     }
-    
+
     for (let i = 0; i < quantidadeDupla - quantidadeBionicos; i++) {
-        numero = obterNumeroAleatorio(de, ate);
+        numero = obterNumeroAleatorio(1, quantidadeDupla);
 
         while (sorteados.includes(numero)) {
-            numero = obterNumeroAleatorio(de, ate);
+            numero = obterNumeroAleatorio(1, quantidadeDupla);
         }
 
         sorteados.push(numero);
     }
-   
-    let resultado = document.getElementById('resultado');
-    resultado.innerHTML = `<label class="texto__paragrafo">Duplas sorteadas:</label><ul>`;
 
-    // Imprime os números dos biônicos
-    if (quantidadeBionicos > 0) {
-        for (let i = 0; i < quantidadeBionicos; i++) {
-            resultado.innerHTML += `<li>${i + 1} biônico: ${sorteados[i]}</li>`;
-        }
-    }
+    // Armazena os dados no localStorage para usar na página de resultados
+    localStorage.setItem('sorteados', JSON.stringify(sorteados));
+    localStorage.setItem('quantidadeBionicos', quantidadeBionicos);
 
-    for (let i = quantidadeBionicos, jogo = 1; i < sorteados.length; i += 2, jogo++) { // Incrementa de 2 para pegar pares de números
-        //let jogo = Math.floor(i / 2) + 1; // Calcula o número do jogo
-        if (i + 1 < sorteados.length) { // Verifica se há um próximo número para o par
-            resultado.innerHTML += `<li>${jogo} Jogo: ${sorteados[i]} x ${sorteados[i + 1]}</li>`;
-        } else {
-            resultado.innerHTML += `<li>${sorteados[i]}</li>`; // Se não houver par, exibe o último número sozinho
-        }
-    }
-    resultado.innerHTML += `</ul>`;
-
-    alterarStatusBotao();
-
+    // Redireciona para a página de resultados
+    window.location.href = "resultado.html";
 }
 
 function obterNumeroAleatorio(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function alterarStatusBotao() {
-    let botao = document.getElementById('btn-reiniciar');
+
+
+// Carrega os dados do localStorage na página de resultados
+window.onload = function () {
+    let sorteados = JSON.parse(localStorage.getItem('sorteados'));
+    let quantidadeBionicos = parseInt(localStorage.getItem('quantidadeBionicos'));
+
+    if (sorteados) {
+        let resultado = document.getElementById('resultado');
+        resultado.innerHTML = `<label class="texto__paragrafo">Duplas sorteadas:</label><ul>`;
+
+        // Imprime os números dos biônicos
+        if (quantidadeBionicos > 0) {
+            for (let i = 0; i < quantidadeBionicos; i++) {
+                resultado.innerHTML += `<li>${i + 1} Biônico: ${sorteados[i]}</li>`;
+            }
+        }
+
+        for (let i = quantidadeBionicos, jogo = 1; i < sorteados.length; i += 2, jogo++) {
+            if (i + 1 < sorteados.length) {
+                resultado.innerHTML += `<li>${jogo} Jogo: ${sorteados[i]} x ${sorteados[i + 1]}</li>`;
+            } else {
+                resultado.innerHTML += `<li>${sorteados[i]}</li>`;
+            }
+        }
+        resultado.innerHTML += `</ul>`;
+    }
     
-    if (botao.classList.contains('container__botao-desabilitado')) {
-        botao.classList.remove('container__botao-desabilitado');
-        botao.classList.add('container__botao');
-    } else {
-        botao.classList.remove('container__botao');
-        botao.classList.add('container__botao-desabilitado');
+    // Verifica se o botão "Reiniciar" está presente na página
+    let botaoReiniciar = document.getElementById('btn-reiniciar');
+    if (botaoReiniciar) {
+        // Se o botão existir, adiciona o evento de clique
+        botaoReiniciar.addEventListener('click', reiniciar);
     }
 }
 
-function reiniciar() {
-    document.getElementById('quantidade').value = '';
-    document.getElementById('bionicos').value = '';
-    document.getElementById('de').value = '';
-    document.getElementById('ate').value = '';
-    document.getElementById('resultado').innerHTML = '<label class="texto__paragrafo">Duplas sorteadas:  nenhum até agora</label>';
-    alterarStatusBotao();
+function obterNumeroAleatorio(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
+function reiniciar() {
+    // Limpa os dados do localStorage
+    localStorage.clear();
+
+    // Redireciona para a página inicial
+    window.location.href = "index.html";
+
+    //document.getElementById('quantidade').value = '';
+    //document.getElementById('bionicos').value = '';
+    //document.getElementById('resultado').innerHTML = '<label class="texto__paragrafo">Duplas sorteadas:</label>';
 }
