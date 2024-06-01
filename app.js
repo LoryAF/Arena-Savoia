@@ -4,10 +4,28 @@ function sortear() {
     let de = parseInt(document.getElementById('de').value);
     let ate = parseInt(document.getElementById('ate').value);
 
+    // Verifica se "Quantidade de Duplas" está vazio
+    if (isNaN(quantidadeDupla) || quantidadeDupla === 0) {
+        alert('Por favor, preencha o campo "Quantidade de Duplas".');
+        return;
+    }
+
      // Verifica se o campo "Quantos Biônicos" está vazio
      if (isNaN(quantidadeBionicos) || quantidadeBionicos === '') {
         alert('Por favor, preencha o campo "Quantos Biônicos".');
         return; // Interrompe a função se o campo estiver vazio
+    }
+
+    // Verifica se "Do número" está vazio
+    if (isNaN(de) || de === 0) {
+        alert('Por favor, preencha o campo "Do número" um número maior que 0.');
+        return;
+    }
+
+    // Verifica se "Até o número" está vazio
+    if (isNaN(ate) || ate === 0) {
+        alert('Por favor, preencha o campo "Até o número"  um número maior que 0.');
+        return;
     }
 
     if (de >= ate) {
