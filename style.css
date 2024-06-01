@@ -198,8 +198,4 @@ button:disabled {
     .container__texto {
         width: 80%;
     }
-
-    body {
-        height: 100vh;
-    }
 }
