@@ -48,8 +48,8 @@ function sortear() {
         }
     }
 
-    for (let i = quantidadeBionicos; i < sorteados.length; i += 2) { // Incrementa de 2 para pegar pares de números
-        let jogo = Math.floor(i / 2) + 1; // Calcula o número do jogo
+    for (let i = quantidadeBionicos, jogo = 1; i < sorteados.length; i += 2, jogo++) { // Incrementa de 2 para pegar pares de números
+        //let jogo = Math.floor(i / 2) + 1; // Calcula o número do jogo
         if (i + 1 < sorteados.length) { // Verifica se há um próximo número para o par
             resultado.innerHTML += `<li>${jogo} Jogo: ${sorteados[i]} x ${sorteados[i + 1]}</li>`;
         } else {
